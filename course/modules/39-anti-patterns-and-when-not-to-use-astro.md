@@ -76,6 +76,29 @@ You *can* build the SaaS dashboard as one big `client:load` island on `/app/*` w
 
 **GOOD:** match the tool to the dominant workload; migration paths exist both ways.
 
+## Security Notes
+
+- The anti-patterns table's server/security rows map 1:1 onto the [security checklist](../reference/security-review-checklist.md) — review both together at feature gates.
+- "When not to use Astro" has security consequences too: a full SPA moves every trust boundary onto a client↔API surface you must then design, authenticate, rate-limit, and defend (Module 23).
+
+## Performance Notes
+
+- Every anti-pattern has a measurable cost: hydrating everything → JS bytes + INP (Module 29); client-fetch waterfalls → extra round trips; tag soup → third-party budget overrun. When you flag one in review, attach the metric it violates.
+
+## Exercises
+
+**Beginner.** Pick a site you use daily. Classify three of its pages on the "how many routes are documents" test and predict its framework fit.
+
+**Intermediate.** Take your Project 2 marketing site and deliberately implement the "React for static content" anti-pattern on one page. Measure JS bytes before/after reverting. Write the delta down.
+
+**Production.** Audit a real codebase (or your capstone) against the Part 1 tables; produce a one-page report with fixes ordered by Module 29's budget impact.
+
+**Architecture Challenge.** A founder shows you a spec: "Figma-like editor + docs + blog + pricing, one codebase, launch in 6 weeks." Propose the honest architecture (likely two apps or one app framework with a content area) and the tradeoffs — then the Astro-hybrid alternative, with its costs.
+
+> **Review:** Editor-first product → interaction-first app (client framework, Modules 39–40 logic) with docs/blog as a separate Astro property or a docs host. Forcing the editor into Astro islands is fighting the framework; forcing the docs into the app framework pays needless JS on every content page. Split at the workload boundary.
+
+**Debugging Challenge.** Your Astro project has slowly become "one root island + client-side router + global store." Collect the symptoms (bundle size, hydration warnings, lost SSR, stale state bugs) and write the migration plan back to Astro's model — or the decision to embrace a different framework honestly.
+
 ## MENTAL MODEL — Judgment
 
 > Frameworks are **default tradeoffs**. Astro's default is "document-first, JS last." If your product's default is "interaction-first, state everywhere," you'll fight it every day — and the honest senior move is to pick a different default, not to tweet that the framework is bad.

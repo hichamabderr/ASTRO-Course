@@ -15,7 +15,7 @@ This repository is the course. It is designed to be worked through **module by m
 | Path | What it is |
 |---|---|
 | [`course/00-orientation/`](course/00-orientation/) | Philosophy, prerequisites, the **verified stack**, and Astro's version evolution |
-| [`course/modules/`](course/modules/) | 40 modules. Each has: Concept → Mental Model → Architecture → Code → Mistakes → Security → Performance → Exercises → Debugging → Architecture Challenge → Docs → "Before Continuing" |
+| [`course/modules/`](course/modules/) | 40 modules. Each includes: concept & architecture, code examples, common mistakes (BAD/GOOD), security notes, performance notes, five exercise tiers (Beginner / Intermediate / Production / Architecture Challenge / Debugging Challenge), a mental model, official docs links, and a "What I Should Know Before Continuing" check |
 | [`course/projects/`](course/projects/) | Three progressive projects + the capstone PRD |
 | [`course/reference/`](course/reference/) | Decision matrix, request-flow / sequence diagrams, security checklist |
 

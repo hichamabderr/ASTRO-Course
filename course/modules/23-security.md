@@ -102,7 +102,15 @@ Lockfile + `npm audit`/Dependabot in CI; pin majors; watch advisories for auth/O
 11. Do error responses leak internals? Are logs free of secrets?
 12. Are security headers/CSP set and tested?
 
-Print this. Use it in PR reviews (Module 41 also references it).
+Print this. Use it in PR reviews (the [capstone's final architecture review](../projects/capstone-prd-and-architecture.md) reuses it).
+
+## Security Notes
+
+- The checklist is a **gate**, not a guideline: a feature with an unchecked box does not ship.
+- Every finding gets a **regression test** in the same PR that fixes it (Module 30's authz matrix is the pattern).
+- Keep evidence: test names, `curl -I` output, bundle greps. "Looks fine" is not a review.
+- Run the full checklist at feature-merge **and** before release; run the client-boundary subset on every PR that touches islands.
+- Never paste real secrets/tokens into issues, chats, or logs while reviewing — use placeholders.
 
 ## Common Mistakes (security edition)
 

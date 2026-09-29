@@ -65,6 +65,40 @@
 - Next SPA-ish pages → Astro: extract islands per widget; data moves to frontmatter/actions; biggest win is usually deleting client fetch waterfalls.
 - Astro app-zone → TanStack Start: components port (React); routing and data layers rewrite.
 
+## Common Mistakes (comparison edition)
+
+**BAD:** choosing by blog-hype, star count, or "which will look on my résumé."
+**GOOD:** choose by dominant workload (documents vs app surfaces vs interaction-first).
+**BAD:** "we'll use Next for the marketing site because the app is Next" — paying React boot costs on every content page.
+**GOOD:** split properties at the workload boundary (Astro content + app framework for the app), or accept the tradeoff in writing.
+**BAD:** judging Astro by building an SPA in it (Module 39), or judging Next.js by its CSR era.
+**GOOD:** evaluate each at its own defaults.
+**BAD:** treating this table as static truth forever.
+**GOOD:** re-verify ecosystem state (orientation 04 protocol) at decision time — versions and features move.
+
+## Security Notes
+
+- All three stacks leave authn/authz/validation **your job** (Modules 21–23 apply everywhere); framework choice shifts ergonomics, not responsibility.
+- Migration/security debt note: a Next-style JWT-in-localStorage pattern ported into Astro is still the wrong pattern — port the *concepts* (server sessions), not the code.
+
+## Performance Notes
+
+- The comparison's clearest measurable axis is default JS on content pages: Astro ≈ 0 KB vs framework-runtime baselines — measure your own candidates on *your* page types before deciding (Module 29's method).
+
+## Exercises
+
+**Beginner.** For five products you use, name the pick and the one-sentence "why" from the scenario table.
+
+**Intermediate.** Build the same small landing page in Astro and in one React meta-framework; compare JS bytes, LCP, and LOC — write a 10-line verdict.
+
+**Production.** Write the architecture decision record (ADR) for a real project: chosen stack, three rejected options, the workload analysis, and the conditions that would flip the decision.
+
+**Architecture Challenge.** A team of 4 React developers, 3 months, a docs-heavy product with a complex in-app dashboard. Decide: one codebase or two? Defend both sides before picking.
+
+> **Review:** A defensible default: Astro monorepo for docs/marketing (their devs already know React for the islands), dashboard as a React app-zone route section — or a separate Next/TanStack app if the dashboard dominates the roadmap. The deciding factor: where the *next two years* of work live, not where the first two weeks do.
+
+**Debugging Challenge.** A team "migrated" a Next.js blog to Astro by mounting their whole Next app in `client:only`. Symptoms: worse Lighthouse than before, confused team. Diagnose the architecture mistake and write the phased migration (routes one by one to Astro, islands extracted) — this is the Bug pattern of Module 39 at organizational scale.
+
 ## MENTAL MODEL — Choosing
 
 > Choose the framework whose **defaults match your product's dominant unit**: documents → Astro; React application surfaces → Next.js/TanStack Start; interaction-first canvas → a client app. The architecture you want to *stop fighting* is the right one.

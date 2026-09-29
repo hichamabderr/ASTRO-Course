@@ -131,6 +131,42 @@ const Tag = Search;
 4. **Inspect the output** — View Source, `dist/`, Network tab, `curl -I`.
 5. **Write the failing test** before the fix.
 
+## Common Mistakes (debugging edition)
+
+**BAD:** fixing the first symptom (adding `client:load` to "fix" a non-hydrating island that had a spread directive).
+**GOOD:** reproduce first, name the boundary, fix the cause.
+**BAD:** debugging only in `astro dev`.
+**GOOD:** confirm on `build`/`preview` — half these bugs are build-only or prod-only.
+**BAD:** "it works now" with no test.
+**GOOD:** failing test first, fix second (Module 30).
+**BAD:** reading the wrong console (client logs for server errors).
+**GOOD:** boundary first: which process failed — build, server, or browser?
+
+## Security Notes
+
+- Several drills above (9, 15, 16) are live vulnerabilities — run them **only on local scratch apps**, never against real environments.
+- When a fix touches a security-class bug, add evidence to the [security checklist](../reference/security-review-checklist.md) and a regression test.
+- Debugging often means looking at real data: use seeded fixtures, and never paste session cookies or tokens into logs/issues while diagnosing.
+
+## Performance Notes
+
+- Debugging tools cost performance: dev overlays, verbose loggers, and sourcemaps-with-secrets stay out of production builds (Module 31).
+- After perf-class fixes (Bugs 2, 3, 5, 14), re-measure against the written budget — "feels faster" isn't a metric (Module 29).
+
+## Exercises
+
+**Beginner.** Reproduce Bugs 1–4 in a scratch project; fix each; write a one-sentence diagnosis in your own words.
+
+**Intermediate.** Reproduce the authz/form/cache cluster (Bugs 9, 10, 11, 14) and write a **failing test** for each before fixing.
+
+**Production.** Turn one fix into a permanent guard: e.g. a CI bundle-grep test that fails if anyone reintroduces Bug 5 (server-only import in an island bundle).
+
+**Architecture Challenge.** You inherit a project exhibiting **all 16 bugs**. Order the fixes by risk and by dependency, and justify the order in writing.
+
+> **Review:** Security exposure first (16, 9, 5) → correctness (1, 6, 10, 11, 13) → reliability (7, 8, 14, 15) → performance (2, 3) → polish (4, 12). Dependencies matter: extract shared types (Bug 5) before bundle work; define cache invalidation (Bug 14) before perf tuning. Security bugs don't wait for feature work.
+
+**Debugging Challenge.** The capstone drill: take your own design from the [capstone PRD](../projects/capstone-prd-and-architecture.md), plant three bugs from this module in a throwaway branch, and trade with a study partner. Diagnose theirs in under 30 minutes using the workflow — the goal is the speed of naming the right boundary, not the fix itself.
+
 ## MENTAL MODEL — Debugging
 
 > Every bug above is a **boundary confusion**: compile-time vs runtime, server vs browser, request vs build, cache vs origin, mine vs tenant's. Debug by naming which boundary you're on — then look at the artifact on the correct side (HTML, bundle, header, SQL).
